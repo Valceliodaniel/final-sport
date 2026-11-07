@@ -1,9 +1,10 @@
 name: Compilador Central Sportech (Gerador de APK)
 
-# Acorda sempre que receber o webhook 'generate-apk' do Google Sheets
+# Acorda via webhook do Google Sheets ou por disparo manual
 on:
   repository_dispatch:
     types: [generate-apk]
+  workflow_dispatch:
 
 jobs:
   build-android:

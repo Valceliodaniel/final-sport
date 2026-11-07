@@ -12,7 +12,7 @@ const APP_CONFIG = {
   clubName: "NOME_INJETADO_PELO_GERADOR", 
   clubUrl: "URL_INJETADA_PELO_GERADOR", 
   // IMPORTANTE: Coloque aqui a URL final gerada pelo seu Google Apps Script (Terminada em /exec)
-  googleSheetsApiUrl: "URL_DO_SEU_GOOGLE_APPS_SCRIPT_AQUI" 
+  googleSheetsApiUrl: "https://script.google.com/macros/s/AKfycbz01YeFqOpWZI1qbI7-4WfRXUldwi7smPhwMXwrk6O_lU5h_Yyl9n4Ucu6N1vOV9zs/exec" 
 };
 
 export default function App() {

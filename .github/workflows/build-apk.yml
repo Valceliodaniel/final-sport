@@ -1,0 +1,56 @@
+name: Compilador Central Sportech (Gerador de APK)
+
+# Acorda sempre que receber o webhook 'generate-apk' do Google Sheets
+on:
+  repository_dispatch:
+    types: [generate-apk]
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Baixar o código fonte do App Template
+        uses: actions/checkout@v3
+
+      - name: 2. Preparar ambiente (Node.js e Java)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+
+      - name: 3. Injetar Variáveis do Clube no Código
+        run: |
+          # Substitui os textos no arquivo App.js
+          sed -i "s/ID_INJETADO_PELO_GERADOR/${{ github.event.client_payload.appId }}/g" App.js
+          sed -i "s/NOME_INJETADO_PELO_GERADOR/${{ github.event.client_payload.clubName }}/g" App.js
+          sed -i "s|URL_INJETADA_PELO_GERADOR|${{ github.event.client_payload.clubUrl }}|g" App.js
+          
+          # Muda o nome do app no arquivo de configuração do Android (ex: app.json)
+          sed -i "s/Sportech Template/${{ github.event.client_payload.clubName }}/g" app.json
+
+      - name: 4. Processar e Injetar o Logotipo do Clube
+        run: |
+          # Converte o Base64 recebido do Sheets de volta para uma imagem real (PNG)
+          # E substitui a imagem padrão do template na pasta assets
+          echo "${{ github.event.client_payload.logoBase64 }}" | base64 --decode > ./assets/club-logo.png
+
+      - name: 5. Instalar Dependências do App
+        run: npm install
+
+      - name: 6. Compilar o Arquivo APK (Build Real)
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleRelease
+          # Esse comando gera o arquivo app-release.apk
+
+      - name: 7. Disponibilizar o APK para Download
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ github.event.client_payload.appId }}-APK
+          path: android/app/build/outputs/apk/release/app-release.apk
+          # O APK ficará disponível no seu GitHub para você baixar e enviar para o Clube!

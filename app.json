@@ -1,0 +1,33 @@
+{
+  "name": "Sportech Template",
+  "displayName": "Sportech Template",
+  "expo": {
+    "name": "Sportech Template",
+    "slug": "sportech-template",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/club-logo.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/club-logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/club-logo.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.sportech.apptemplate"
+    },
+    "web": {
+      "favicon": "./assets/club-logo.png"
+    }
+  }
+}
